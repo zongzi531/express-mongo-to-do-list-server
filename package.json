@@ -19,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/zongzi531/express-mongo-to-do-list-server/issues"
   },
-  "homepage": "https://github.com/zongzi531/express-mongo-to-do-list-server#readme"
+  "homepage": "https://github.com/zongzi531/express-mongo-to-do-list-server#readme",
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  }
 }
