@@ -1,0 +1,23 @@
+{
+  "name": "express-mongo-to-do-list-server",
+  "version": "1.0.0",
+  "description": "A express and mongodb Server in Node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zongzi531/express-mongo-to-do-list-server.git"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "zongzi531 <zongzi.xy@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zongzi531/express-mongo-to-do-list-server/issues"
+  },
+  "homepage": "https://github.com/zongzi531/express-mongo-to-do-list-server#readme"
+}
