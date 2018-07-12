@@ -1,19 +1,15 @@
-const models = require('../mongo/models')
-const units = require('../units')
-
-const { userInfo } = models
-
-const { response } = units
+const UserInfo = require('../mongo/models').UserInfo
+const response = require('../units').response
 
 const path = '/regist'
 
 const callback = async (req, res, next) => {
   const { username, password } = req.body
 
-  if (!username) { return res.json(response('NO_USERNAME')) }
-  if (!password) { return res.json(response('NO_PASSWORD')) }
+  if (!username) { res.json(response('NO_USERNAME')); next() }
+  if (!password) { res.json(response('NO_PASSWORD')); next() }
 
-  const docs = await userInfo.find({ username }, (err, docs) => {
+  const docs = await UserInfo.find({ username }, (err, docs) => {
     if (err) { throw err }
     return docs
   })
@@ -21,7 +17,7 @@ const callback = async (req, res, next) => {
   const { length } = docs
 
   if (length === 0) {
-    const userinfo = new userInfo({
+    const userinfo = new UserInfo({
       username,
       password
     })
@@ -31,12 +27,13 @@ const callback = async (req, res, next) => {
         resolve(docs)
       })
     })
-    return res.json(response('REGISTED_SUCCESS'))
+    res.json(response('REGISTED_SUCCESS'))
   } else if (length === 1) {
-    return res.json(response('USER_REGISTED'))
+    res.json(response('USER_REGISTED'))
   } else {
-    return res.json(response('USER_ACCOUNT_ABNORMALITY'))
+    res.json(response('USER_ACCOUNT_ABNORMALITY'))
   }
+  next()
 }
 
 module.exports.path = path

@@ -1,19 +1,16 @@
-const models = require('../mongo/models')
-const units = require('../units')
-
-const { userInfo } = models
-
-const { response } = units
+const UserInfo = require('../mongo/models').UserInfo
+const response = require('../units').response
+const Base64 = require('js-base64').Base64
 
 const path = '/login'
 
 const callback = async (req, res, next) => {
   const { username, password } = req.body
 
-  if (!username) { return res.json(response('NO_USERNAME')) }
-  if (!password) { return res.json(response('NO_PASSWORD')) }
+  if (!username) { res.json(response('NO_USERNAME')); return next() }
+  if (!password) { res.json(response('NO_PASSWORD')); return next() }
 
-  const docs = await userInfo.find({ username }, (err, docs) => {
+  const docs = await UserInfo.find({ username }, (err, docs) => {
     if (err) { throw err }
     return docs
   })
@@ -21,17 +18,18 @@ const callback = async (req, res, next) => {
   const { length } = docs
 
   if (length === 0) {
-    return res.json(response('USERNAME_OR_PASSWORD_ERROR'))
+    res.json(response('USERNAME_OR_PASSWORD_ERROR'))
   } else if (length === 1) {
     const [data] = docs
-    if (username === data.username) {
-      return res.json(response('LOGIN_SUCCESS'))
+    if (username === data._doc.username) {
+      res.json(response('LOGIN_SUCCESS', { token: Base64.encode(data._doc._id) }))
     } else {
-      return res.json(response('USERNAME_OR_PASSWORD_ERROR'))
+      res.json(response('USERNAME_OR_PASSWORD_ERROR'))
     }
   } else {
-    return res.json(response('USER_ACCOUNT_ABNORMALITY'))
+    res.json(response('USER_ACCOUNT_ABNORMALITY'))
   }
+  next()
 }
 
 module.exports.path = path

@@ -44,3 +44,11 @@ brew services stop mongodb
 
 brew services restart mongodb
 ```
+
+**4. HTTP request logger middleware for node.js**
+
+[expressjs/morgan](https://github.com/expressjs/morgan)
+
+**5. About some key information encryption**
+
+You can use DES, AES, RSA, Base64, MD5, SHA1, etc...

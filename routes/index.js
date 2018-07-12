@@ -1,10 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-const regist = require('./regist')
-router.post(regist.path, regist.callback)
+const post = (modulesPath) => {
+  const r = require(modulesPath)
+  router.post(r.path, r.callback)
+}
 
-const login = require('./login')
-router.post(login.path, login.callback)
+post('./regist')
+post('./login')
+post('./addTodo')
+post('./getTodoList')
+post('./updateTodo')
 
 module.exports = router
