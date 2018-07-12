@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "mongoose": "^5.2.2"
+    "js-base64": "^2.4.6",
+    "mongoose": "^5.2.2",
+    "morgan": "^1.9.0"
   }
 }
