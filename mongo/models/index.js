@@ -6,6 +6,16 @@ const USER_INFO = mongoose.Schema({
   password: String
 })
 
-const userInfo = db.model('user_info', USER_INFO)
+const UserInfo = db.model('user_info', USER_INFO)
 
-module.exports.userInfo = userInfo
+const TODO_LIST = mongoose.Schema({
+  userId: String,
+  color: String,
+  content: String,
+  status: String
+})
+
+const TodoList = db.model('todo_list', TODO_LIST)
+
+module.exports.UserInfo = UserInfo
+module.exports.TodoList = TodoList
