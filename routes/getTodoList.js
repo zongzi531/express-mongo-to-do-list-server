@@ -1,17 +1,22 @@
 const TodoList = require('../mongo/models').TodoList
-const units = require('../units')
+const { response, params } = require('../units')
 const Base64 = require('js-base64').Base64
-
-const { response, params } = units
+const { check, validationResult } = require('express-validator/check')
 
 const { UNFINISHED, FINISHED } = params
 
 const path = '/getTodoList'
 
-const callback = async (req, res, next) => {
-  const { token } = req.body
+const validatior = [
+  check('token', 'NO_TOKEN').exists()
+]
 
-  if (!token) { res.json(response('NO_TOKEN')); return next() }
+const callback = async (req, res, next) => {
+  const [errors] = validationResult(req).array()
+
+  if (errors) { res.json(response(errors.msg)); return next() }
+
+  const { token } = req.body
 
   const userId = Base64.decode(token)
 
@@ -48,4 +53,5 @@ const callback = async (req, res, next) => {
 }
 
 module.exports.path = path
+module.exports.validatior = validatior
 module.exports.callback = callback

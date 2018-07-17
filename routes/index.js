@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 const post = (modulesPath) => {
-  const r = require(modulesPath)
-  router.post(r.path, r.callback)
+  const { path, validatior = [], callback } = require(modulesPath)
+  router.post(path, validatior, callback)
 }
 
 post('./regist')

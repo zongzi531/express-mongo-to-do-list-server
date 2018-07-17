@@ -1,13 +1,20 @@
 const UserInfo = require('../mongo/models').UserInfo
 const response = require('../units').response
+const { check, validationResult } = require('express-validator/check')
 
 const path = '/regist'
 
-const callback = async (req, res, next) => {
-  const { username, password } = req.body
+const validatior = [
+  check('username', 'NO_USERNAME').exists(),
+  check('password', 'NO_PASSWORD').exists()
+]
 
-  if (!username) { res.json(response('NO_USERNAME')); next() }
-  if (!password) { res.json(response('NO_PASSWORD')); next() }
+const callback = async (req, res, next) => {
+  const [errors] = validationResult(req).array()
+
+  if (errors) { res.json(response(errors.msg)); return next() }
+
+  const { username, password } = req.body
 
   const docs = await UserInfo.find({ username }, (err, docs) => {
     if (err) { throw err }
@@ -37,4 +44,5 @@ const callback = async (req, res, next) => {
 }
 
 module.exports.path = path
+module.exports.validatior = validatior
 module.exports.callback = callback

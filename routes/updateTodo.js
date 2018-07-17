@@ -1,6 +1,7 @@
 const TodoList = require('../mongo/models').TodoList
 const units = require('../units')
 const Base64 = require('js-base64').Base64
+const { check, validationResult } = require('express-validator/check')
 
 const { response, params } = units
 
@@ -8,16 +9,22 @@ const { COLORS, STATUS } = params
 
 const path = '/updateTodo'
 
-const callback = async (req, res, next) => {
-  const { token, todoId, color, content, status } = req.body
+const validatior = [
+  check('token', 'NO_TOKEN').exists(),
+  check('todoId', 'NO_TODOID').exists(),
+  check('color', 'NO_COLOR').exists(),
+  check('color', 'COLOR_TYPE_ERROR').custom(value => COLORS.has(value)),
+  check('content', 'NO_CONTENT').exists(),
+  check('status', 'NO_STATUS').exists(),
+  check('status', 'STATUS_TYPE_ERROR').custom(value => STATUS.has(value))
+]
 
-  if (!token) { res.json(response('NO_TOKEN')); return next() }
-  if (!todoId) { res.json(response('NO_TODOID')); return next() }
-  if (!color) { res.json(response('NO_COLOR')); return next() }
-  if (!COLORS.has(color)) { res.json(response('COLOR_TYPE_ERROR')); return next() }
-  if (!content) { res.json(response('NO_CONTENT')); return next() }
-  if (!status) { res.json(response('NO_STATUS')); return next() }
-  if (!STATUS.has(status)) { res.json(response('STATUS_TYPE_ERROR')); return next() }
+const callback = async (req, res, next) => {
+  const [errors] = validationResult(req).array()
+
+  if (errors) { res.json(response(errors.msg)); return next() }
+
+  const { token, todoId, color, content, status } = req.body
 
   const userId = Base64.decode(token)
   const _id = Base64.decode(todoId)
@@ -32,4 +39,5 @@ const callback = async (req, res, next) => {
 }
 
 module.exports.path = path
+module.exports.validatior = validatior
 module.exports.callback = callback
