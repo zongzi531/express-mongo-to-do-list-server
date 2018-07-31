@@ -10,12 +10,12 @@ const { COLORS, STATUS } = params
 const path = '/updateTodo'
 
 const validatior = [
-  check('token', 'NO_TOKEN').exists(),
-  check('todoId', 'NO_TODOID').exists(),
-  check('color', 'NO_COLOR').exists(),
+  check('token', 'NO_TOKEN').exists({ checkFalsy: true }),
+  check('todoId', 'NO_TODOID').exists({ checkFalsy: true }),
+  check('color', 'NO_COLOR').exists({ checkFalsy: true }),
   check('color', 'COLOR_TYPE_ERROR').custom(value => COLORS.has(value)),
-  check('content', 'NO_CONTENT').exists(),
-  check('status', 'NO_STATUS').exists(),
+  check('content', 'NO_CONTENT').exists({ checkFalsy: true }),
+  check('status', 'NO_STATUS').exists({ checkFalsy: true }),
   check('status', 'STATUS_TYPE_ERROR').custom(value => STATUS.has(value))
 ]
 

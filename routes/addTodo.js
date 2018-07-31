@@ -8,10 +8,10 @@ const { STATUS_DEFAULT, COLORS_DEFAULT, COLORS } = params
 const path = '/addTodo'
 
 const validatior = [
-  check('token', 'NO_TOKEN').exists(),
-  check('color', 'NO_COLOR').exists(),
+  check('token', 'NO_TOKEN').exists({ checkFalsy: true }),
+  check('color', 'NO_COLOR').exists({ checkFalsy: true }),
   check('color', 'COLOR_TYPE_ERROR').custom(value => COLORS.has(value)),
-  check('content', 'NO_CONTENT').exists()
+  check('content', 'NO_CONTENT').exists({ checkFalsy: true })
 ]
 
 const callback = async (req, res, next) => {

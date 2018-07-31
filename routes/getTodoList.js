@@ -8,7 +8,7 @@ const { UNFINISHED, FINISHED } = params
 const path = '/getTodoList'
 
 const validatior = [
-  check('token', 'NO_TOKEN').exists()
+  check('token', 'NO_TOKEN').exists({ checkFalsy: true })
 ]
 
 const callback = async (req, res, next) => {

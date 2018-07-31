@@ -6,8 +6,8 @@ const { check, validationResult } = require('express-validator/check')
 const path = '/login'
 
 const validatior = [
-  check('username', 'NO_USERNAME').exists(),
-  check('password', 'NO_PASSWORD').exists()
+  check('username', 'NO_USERNAME').exists({ checkFalsy: true }),
+  check('password', 'NO_PASSWORD').exists({ checkFalsy: true })
 ]
 
 const callback = async (req, res, next) => {

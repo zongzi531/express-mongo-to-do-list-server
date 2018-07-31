@@ -15,6 +15,7 @@ app.use('*', (req, res, next) => {
   next()
 })
 
+app.use('/', express.static('views'))
 app.use(router)
 
 require('./mongo')
